@@ -7,7 +7,7 @@ import theme from '../theme';
 const styles = StyleSheet.create({
   text: {
     color: theme.colors.appBarText,
-    fontWeight:'bold',
+    fontWeight:theme.fontWeights.bold,
     fontSize:15,
     padding:10
   },
