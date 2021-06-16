@@ -9,10 +9,7 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.appBarBackground,
     flexDirection: 'row',
-  },
-  text: {
-    color: theme.colors.appBarText,
-  },
+  }
 });
 
 const AppBar = () => {
@@ -20,7 +17,7 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab text='Repositories' link={'/'} />
-        <AppBarTab text='SignIn' link={'/sign-in'} />
+        <AppBarTab text='Sign in' link={'/sign-in'} />
       </ScrollView>
     </View>
   );

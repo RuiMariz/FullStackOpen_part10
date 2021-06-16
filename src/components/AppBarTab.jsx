@@ -7,15 +7,15 @@ import theme from '../theme';
 const styles = StyleSheet.create({
   text: {
     color: theme.colors.appBarText,
+    fontWeight:'bold',
+    fontSize:15,
+    padding:10
   },
-  container: {
-    marginRight: 10,
-  }
 });
 
 const AppBarTab = ({ text, link }) => {
   return (
-    <Link to={link} component={Pressable} style={styles.container}>
+    <Link to={link} component={Pressable}>
       <Text style={styles.text}>{text}</Text>
     </Link>
   );

@@ -27,6 +27,8 @@ const styles = StyleSheet.create({
   language: {
     color: 'white',
     backgroundColor: theme.colors.primary,
+    padding:2,
+    borderRadius:2
   },
   repoStatsContainer: {
     flexDirection: 'row',
