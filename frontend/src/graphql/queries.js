@@ -1,19 +1,5 @@
 import { gql } from '@apollo/client';
-
-const REPOSITORY_DETAILS = gql`
-  fragment RepositoryDetails on Repository {
-    id				
-    fullName
-    description
-    language
-    language
-    forksCount
-    stargazersCount
-    ratingAverage
-    reviewCount
-    ownerAvatarUrl    
-  }
-`;
+import { REPOSITORY_DETAILS } from './fragments';
 
 export const GET_REPOSITORIES = gql`
   query {
