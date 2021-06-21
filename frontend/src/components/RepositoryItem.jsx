@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
   language: {
     color: 'white',
     backgroundColor: theme.colors.primary,
-    padding:2,
-    borderRadius:2
+    padding: 2,
+    borderRadius: 2
   },
   repoStatsContainer: {
     flexDirection: 'row',
@@ -55,28 +55,28 @@ const RepositoryItem = ({ repository }) => {
           }}
         />
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{repository.fullName}</Text>
-          <Text>{repository.description}</Text>
+          <Text style={styles.name} testID="fullName">{repository.fullName}</Text>
+          <Text testID='description'>{repository.description}</Text>
           <View style={styles.languageContainer}>
-            <Text style={styles.language}>{repository.language}</Text>
+            <Text style={styles.language} testID='language'>{repository.language}</Text>
           </View>
         </View>
       </View>
       <View style={styles.repoStatsContainer}>
         <View style={styles.repoStatContainer}>
-          <Text style={styles.repoStat}>{convertToThousands(repository.stargazersCount)}</Text>
+          <Text style={styles.repoStat} testID='stars'>{convertToThousands(repository.stargazersCount)}</Text>
           <Text>Stars</Text>
         </View>
         <View style={styles.repoStatContainer}>
-          <Text style={styles.repoStat}>{convertToThousands(repository.forksCount)}</Text>
+          <Text style={styles.repoStat} testID='forks'>{convertToThousands(repository.forksCount)}</Text>
           <Text>Forks</Text>
         </View>
         <View style={styles.repoStatContainer}>
-          <Text style={styles.repoStat}>{convertToThousands(repository.reviewCount)}</Text>
+          <Text style={styles.repoStat} testID='reviews'>{convertToThousands(repository.reviewCount)}</Text>
           <Text>Reviews</Text>
         </View>
         <View style={styles.repoStatContainer}>
-          <Text style={styles.repoStat}>{repository.ratingAverage}</Text>
+          <Text style={styles.repoStat} testID='rating'>{repository.ratingAverage}</Text>
           <Text>Rating</Text>
         </View>
       </View>
