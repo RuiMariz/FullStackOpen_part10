@@ -22,3 +22,12 @@ export const GET_AUTHORIZED_USER = gql`
     }
   }
 `;
+
+export const GET_REPOSITORY = gql`
+  query repository($id: ID!) {
+    repository(id: $id) {
+      ...RepositoryDetails
+    }
+  }
+${REPOSITORY_DETAILS}
+`;

@@ -11,6 +11,7 @@ export const REPOSITORY_DETAILS = gql`
     stargazersCount
     ratingAverage
     reviewCount
-    ownerAvatarUrl    
+    ownerAvatarUrl
+    url
   }
 `;
