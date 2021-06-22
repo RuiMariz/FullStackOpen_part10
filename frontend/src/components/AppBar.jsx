@@ -22,7 +22,11 @@ const AppBar = () => {
     <View style={styles.container}>
       <ScrollView horizontal>
         <AppBarTab text='Repositories' link={'/'} />
-        {user ?  <AppBarTab text='Sign out' link={'/sign-out'} />
+        {user ?
+          <View style={{flexDirection: 'row'}}>
+            <AppBarTab text='Create review' link={'/create-review'} />
+            <AppBarTab text='Sign out' link={'/sign-out'} />
+          </View>
           : <AppBarTab text='Sign in' link={'/sign-in'} />
         }
       </ScrollView>
