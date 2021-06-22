@@ -5,7 +5,8 @@ import * as yup from 'yup';
 import { useHistory } from "react-router-native";
 import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
-import useReview from '../hooks/useCreateReview';
+import useSignUp from '../hooks/useSignUp';
+import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
   submitContainer: {
@@ -20,30 +21,32 @@ const styles = StyleSheet.create({
   },
 });
 const validationSchema = yup.object().shape({
-  ownerName: yup
+  username: yup
     .string()
-    .required('Repository Owner is required'),
-  repositoryName: yup
+    .required('Username is required')
+    .min(1, 'Username has minimum length of 1')
+    .max(30, 'Username has maximum length of 30'),
+  password: yup
     .string()
-    .required('Repository Name is required'),
-  rating: yup
-    .number()
-    .typeError('Rating must be a number between 0 and 100')
-    .min(0, 'Rating must be greater or equal to 0')
-    .max(100, 'Rating must be less than or equal to 100')
-    .required('Rating is required')
+    .required('Password is required')
+    .min(5, 'Password has minimum length of 5')
+    .max(50, 'Password has maximum length of 50'),
+  confirmPassword: yup
+    .string()
+    .required('Password Confirmation is required')
+    .oneOf([yup.ref('password')],
+      'Passwords do not match'),
 });
 
-const CreateReviewForm = ({ onSubmit }) => {
+const SignUpForm = ({ onSubmit }) => {
   return (
     <View style={{ marginTop: 10 }}>
-      <FormikTextInput name="ownerName" placeholder="Repository Owner" />
-      <FormikTextInput name="repositoryName" placeholder="Repository Name" />
-      <FormikTextInput name="rating" placeholder="Rating" />
-      <FormikTextInput name="text" placeholder="Review" multiline />
+      <FormikTextInput name="username" placeholder="Username" />
+      <FormikTextInput name="password" placeholder="Password" secureTextEntry={true} />
+      <FormikTextInput name="confirmPassword" placeholder="Password Confirmation" secureTextEntry={true} />
       <View style={styles.submitContainer}>
         <Button
-          title="Create review"
+          title="Sign up"
           onPress={onSubmit}
           color={theme.colors.primary}
         />
@@ -52,36 +55,36 @@ const CreateReviewForm = ({ onSubmit }) => {
   );
 };
 
-export const CreateReviewContainer = ({ onSubmit }) => {
+export const SignUpContainer = ({ onSubmit }) => {
   const initialValues = {
-    ownerName: '',
-    repositoryName: '',
-    rating: '',
-    text: ''
+    username: '',
+    password: '',
+    confirmPassword: ''
   };
 
   return (
     <Formik initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}>
-      {({ handleSubmit }) => <CreateReviewForm onSubmit={handleSubmit} />}
+      {({ handleSubmit }) => <SignUpForm onSubmit={handleSubmit} />}
     </Formik>
   );
 };
 
 let previousTimeOutId = null;
 
-const CreateReview = () => {
+const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState('');
-  const [createReview] = useReview();
+  const [signUp] = useSignUp();
+  const [signIn] = useSignIn();
   const history = useHistory();
 
   const onSubmit = async (values) => {
-    const { repositoryName, ownerName, rating, text } = values;
+    const { username, password } = values;
     try {
-      const result = await createReview({ repositoryName, ownerName, rating: Number(rating), text });
-      const repositoryID = result.data.createReview.repositoryId;
-      history.push(`/repositories/${repositoryID}`);
+      await signUp({ username, password });
+      await signIn({ username, password });
+      history.push('/');
     } catch (e) {
       showErrorMessage(e.message);
       console.log(e);
@@ -99,9 +102,9 @@ const CreateReview = () => {
   return (
     <View>
       {errorMessage !== '' && <Text style={styles.errorText}>{errorMessage}</Text>}
-      <CreateReviewContainer onSubmit={onSubmit} />
+      <SignUpContainer onSubmit={onSubmit} />
     </View>
   );
 };
 
-export default CreateReview;
+export default SignUp;
