@@ -1,16 +1,32 @@
-import React from 'react';
-import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, View, StyleSheet, Pressable, Text } from 'react-native';
 import { useHistory } from "react-router-native";
+import { Picker } from '@react-native-picker/picker';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
+import theme from '../theme';
 
 const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
+  sortPicker: {
+    height: 50,
+    width: '80%'
+  },
+  sortByText: {
+    fontSize:theme.fontSizes.body,
+    fontWeight:theme.fontWeights.bold
+  },
+  sortByContainer: {
+    flexDirection: 'row',
+    margin:10,
+    padding:5,
+    backgroundColor:'lightgrey'
+  },
 });
 
-export const RepositoryListContainer = ({ repositories, history }) => {
+export const RepositoryListContainer = ({ repositories, history, sortBy, setSortBy }) => {
   // Get the nodes from the edges array
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
@@ -40,16 +56,38 @@ export const RepositoryListContainer = ({ repositories, history }) => {
       ItemSeparatorComponent={ItemSeparator}
       renderItem={renderItem}
       keyExtractor={item => item.id}
+      ListHeaderComponent={() => <SortComponent sortBy={sortBy} setSortBy={setSortBy} />}
     />
   );
 };
 
+const SortComponent = ({ sortBy, setSortBy }) => {
+  return (
+    <View style={styles.sortByContainer}>
+      <View style={{ justifyContent: 'center', height: 50}}>
+        <Text style={styles.sortByText}>Order By</Text>
+      </View>
+      <Picker
+        selectedValue={sortBy}
+        style={styles.sortPicker}
+        onValueChange={(itemValue) =>
+          setSortBy(itemValue)
+        }>
+        <Picker.Item label="Latest Repositories" value="latest"/>
+        <Picker.Item label="Highest rated Repositories" value="highestRated" />
+        <Picker.Item label="Lowest rated Repositories" value="lowestRated" />
+      </Picker>
+    </View>
+  );
+};
+
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
+  const [sortBy, setSortBy] = useState('latest');
+  const { repositories } = useRepositories(sortBy);
   const history = useHistory();
 
   return (
-    <RepositoryListContainer repositories={repositories} history={history}/>
+    <RepositoryListContainer repositories={repositories} history={history} sortBy={sortBy} setSortBy={setSortBy} />
   );
 };
 
