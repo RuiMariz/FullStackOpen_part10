@@ -13,14 +13,14 @@ const styles = StyleSheet.create({
   separator: {
     borderBottomColor: 'black',
     borderBottomWidth: 1,
-    margin:10,
-    marginTop:5
+    margin: 10,
+    marginTop: 5
   },
 });
 
 const SingleRepository = () => {
   let { repositoryID } = useParams();
-  let { repository } = useRepository(repositoryID);
+  let { repository, fetchMore } = useRepository(repositoryID);
 
   if (!repository)
     return null;
@@ -40,6 +40,9 @@ const SingleRepository = () => {
     );
   };
   const ItemSeparator = () => <View style={styles.separator} />;
+  const onEndReach = () => {
+    fetchMore();
+  };
 
   return (
     <FlatList
@@ -47,7 +50,9 @@ const SingleRepository = () => {
       ItemSeparatorComponent={ItemSeparator}
       renderItem={({ item }) => <Review review={item.node} />}
       keyExtractor={item => item.node.id}
-      ListHeaderComponent={() => <RepositoryHeader/>}
+      ListHeaderComponent={() => <RepositoryHeader />}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
     />
   );
 };

@@ -70,7 +70,7 @@ export class RepositoryListContainer extends React.Component {
 
 
   render() {
-    const { repositories, history } = this.props;
+    const { repositories, history, onEndReach } = this.props;
 
     // Get the nodes from the edges array
     const repositoryNodes = repositories
@@ -102,6 +102,8 @@ export class RepositoryListContainer extends React.Component {
         renderItem={renderItem}
         keyExtractor={item => item.id}
         ListHeaderComponent={this.renderHeader}
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.5}
       />
     );
   }
@@ -111,11 +113,16 @@ const RepositoryList = () => {
   const [sortBy, setSortBy] = useState('latest');
   const [search, setSearch] = useState('');
   const [searchDebounce] = useDebounce(search, 500);
-  const { repositories } = useRepositories(sortBy, searchDebounce);
+  const { repositories, fetchMore } = useRepositories(sortBy, searchDebounce);
   const history = useHistory();
 
+  const onEndReach = () => {
+    fetchMore();
+  };
+
   return (
-    <RepositoryListContainer repositories={repositories} history={history} sortBy={sortBy} setSortBy={setSortBy} search={search} setSearch={setSearch} />
+    <RepositoryListContainer repositories={repositories} history={history}
+      sortBy={sortBy} setSortBy={setSortBy} search={search} setSearch={setSearch} onEndReach={onEndReach} />
   );
 };
 
