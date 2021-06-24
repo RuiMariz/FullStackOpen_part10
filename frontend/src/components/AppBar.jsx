@@ -24,6 +24,7 @@ const AppBar = () => {
         <AppBarTab text='Repositories' link={'/'} />
         {user ?
           <View style={{ flexDirection: 'row' }}>
+            <AppBarTab text='My Reviews' link={'/my-reviews'} />
             <AppBarTab text='Create review' link={'/create-review'} />
             <AppBarTab text='Sign out' link={'/sign-out'} />
           </View>

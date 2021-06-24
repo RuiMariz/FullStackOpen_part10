@@ -3,7 +3,7 @@ import { useParams } from "react-router-native";
 import { View, Button, StyleSheet, Linking, FlatList } from 'react-native';
 import useRepository from '../hooks/useRepository';
 import RepositoryItem from './RepositoryItem';
-import Review from './ReviewItem';
+import ReviewItem from './ReviewItem';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
@@ -48,7 +48,7 @@ const SingleRepository = () => {
     <FlatList
       data={repository.reviews.edges}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <Review review={item.node} />}
+      renderItem={({ item }) => <ReviewItem review={item.node} />}
       keyExtractor={item => item.node.id}
       ListHeaderComponent={() => <RepositoryHeader />}
       onEndReached={onEndReach}

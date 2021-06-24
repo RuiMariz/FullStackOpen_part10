@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { format,parseISO } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
   reviewContainer: {
     flexDirection: 'row',
-    marginBottom:10
+    marginBottom: 10
   },
   ratingContainer: {
     borderColor: theme.colors.primary,
@@ -31,12 +31,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 10
   },
-  reviewTextContainer:{
-    marginTop:5
+  reviewTextContainer: {
+    marginTop: 5
   }
 });
 
-const Review = ({ review }) => {
+const ReviewItem = ({ review, myReviews }) => {
   return (
     <View style={styles.reviewContainer}>
       <View style={styles.ratingContainer}>
@@ -45,7 +45,10 @@ const Review = ({ review }) => {
         </Text>
       </View>
       <View style={styles.reviewInfoContainer}>
-        <Text style={styles.name} >{review.user.username}</Text>
+        {myReviews ?
+          <Text style={styles.name} >{`${review.repository.ownerName}/${review.repository.name}`}</Text>
+          : <Text style={styles.name} >{review.user.username}</Text>
+        }
         <Text style={styles.review}>{format(parseISO(review.createdAt), 'dd/MM/yyyy')}</Text>
         <View style={styles.reviewTextContainer}>
           <Text>{review.text}</Text>
@@ -55,4 +58,4 @@ const Review = ({ review }) => {
   );
 };
 
-export default Review;
+export default ReviewItem;

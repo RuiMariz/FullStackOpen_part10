@@ -17,14 +17,39 @@ export const GET_REPOSITORIES = gql`
       }
     }
   }
-${ REPOSITORY_DETAILS }
+${REPOSITORY_DETAILS}
 `;
 
 export const GET_AUTHORIZED_USER = gql`
-  query {
+  query ($includeReviews: Boolean = false, $first: Int, $after: String){
     authorizedUser {
       id
       username
+      reviews(first: $first, after: $after) @include(if: $includeReviews) {
+        pageInfo{
+          startCursor
+          endCursor
+          hasNextPage
+        }
+        edges{
+          cursor
+          node{
+            repositoryId
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+            repository{
+              ownerName
+              name
+            }
+          }
+        }
+      }
     }
   }
 `;
