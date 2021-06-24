@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 });
 
 const MyReviews = () => {
-  let { user, fetchMore } = useUser();
+  let { user, fetchMore, refetch } = useUser();
 
   if (!user)
     return null;
@@ -30,7 +30,7 @@ const MyReviews = () => {
     <FlatList
       data={user.reviews.edges}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <ReviewItem review={item.node} myReviews={true} />}
+      renderItem={({ item }) => <ReviewItem review={item.node} myReviews={true} refetch={refetch} />}
       keyExtractor={item => item.node.id}
       onEndReached={onEndReach}
       onEndReachedThreshold={0.5}

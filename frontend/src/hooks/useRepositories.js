@@ -5,7 +5,7 @@ import { convertSortBy } from "../utils";
 const useRepositories = (sortBy, searchKeyword) => {
   const variables = { ...convertSortBy(sortBy), searchKeyword, first: 5 };
 
-  const { data, loading, fetchMore, ...result } = useQuery(GET_REPOSITORIES, {
+  const { data, fetchMore, loading, ...result } = useQuery(GET_REPOSITORIES, {
     variables,
     fetchPolicy: "cache-and-network"
   });
